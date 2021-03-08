@@ -1,0 +1,12 @@
+﻿{
+  "Chrome": {
+	  "profile": { 
+      "disable-popup-blocking": true,
+      "download.prompt_for_download": false,
+      "directory_upgrade": true,
+      "plugins.always_open_pdf_externally": true
+    },
+    "arguments": [ "no-sandbox" ], 
+    "DownloadPath": ""
+  }
+}

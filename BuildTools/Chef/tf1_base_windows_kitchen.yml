@@ -1,0 +1,10 @@
+---
+platforms:
+- name: win2016
+  transport:
+    name: winrm
+    elevated: true
+    elevated_username: Administrator
+    elevated_password: <%= ENV['SECRET_WINDOWS_ADMIN_PASSWORD'] %>
+    username: Administrator
+    password: <%= ENV['SECRET_WINDOWS_ADMIN_PASSWORD'] %>

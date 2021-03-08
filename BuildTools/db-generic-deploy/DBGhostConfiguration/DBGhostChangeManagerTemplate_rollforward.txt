@@ -1,0 +1,11 @@
+USE [$(Database)]
+GO
+
+PRINT '****'
+PRINT '**** Running script on ' + @@SERVERNAME + ' at ' + CONVERT(VARCHAR(255), GETUTCDATE(), 0) + ' (UTC)'
+PRINT '****'
+PRINT ''
+GO
+
+PRINT '=== START OF CHANGE [ROLLFORWARD] ==='
+GO

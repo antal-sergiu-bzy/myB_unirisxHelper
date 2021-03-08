@@ -1,0 +1,25 @@
+---
+platforms:
+- name: win2016
+  driver:
+    machine_options:
+      bootstrap_options:
+        template_name: Server_2016_Std_Current
+        customization_spec:
+          domain: local
+          ipsettings:
+            subnetMask: 255.255.255.0
+            dnsServerList:
+            - 192.168.128.11
+            - 192.168.129.11
+          win_time_zone: 085
+          org_name: Beazley
+          product_id: ''
+        ssh: # Actually WinRM and not SSH
+          user: Administrator
+          password: <%= ENV['SECRET_WINDOWS_ADMIN_PASSWORD'] %>
+  transport:
+    name: winrm
+    elevated: true
+    elevated_username: Administrator
+    elevated_password: <%= ENV['SECRET_WINDOWS_ADMIN_PASSWORD'] %>

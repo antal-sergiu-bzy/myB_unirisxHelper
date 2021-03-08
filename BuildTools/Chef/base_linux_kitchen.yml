@@ -1,0 +1,14 @@
+---
+platforms:
+- name: centos-7
+  driver:
+    machine_options:
+      bootstrap_options:
+        template_name: CentOS_7_Current      
+        ssh:
+          user: root
+          password: <%= ENV['SECRET_CENTOS_ROOT_PASSWORD'] %>
+          port: 22
+  provisioner:
+    client_rb:
+      client_fork: false  # Forked instances don't return the real exit code, this fixes Linux reboots

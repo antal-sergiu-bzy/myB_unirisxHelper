@@ -1,0 +1,42 @@
+---
+driver:
+  name: vcenter
+  vcenter_username: <%= ENV['VSPHERE_USER'] %>
+  vcenter_password: <%= ENV['VSPHERE_PASSWORD'] %>
+  vcenter_host:  <%= ENV['VSPHERE_SERVER'] %>
+  vcenter_disable_ssl_verify: true
+  datacenter: PPS
+  cluster: Sandbox
+  network_name: Net_External_164
+  folder: Development/Sandbox
+  customize:
+    annotation: "Test Kitchen VM by <%= ENV['USERNAME'].upcase %> on <%= Time.now.to_s %>"
+  guest_customization:
+    subnet_mask: 255.255.252.0
+    dns_server_list:
+    - 192.168.128.11
+    - 192.168.129.11
+    dns_suffix_list:
+    - bfl.local
+    dns_domain: bfl.local
+    domain_admin: <%= ENV['VSPHERE_USER'][4..-1] %>
+    domain_admin_password: <%= ENV['VSPHERE_PASSWORD'] %>
+    timezone: Europe/London
+
+provisioner:
+  name: chef_zero
+  product_name: chef
+  product_version: 15.13.8
+  http_proxy: http://gateway.zscloud.net:80
+  https_proxy: http://gateway.zscloud.net:80
+  no_proxy: .local,localhost
+  data_bags_path: test/integration/default/data_bags
+  environments_path: test/integration/default/environments
+  encrypted_data_bag_secret_key_path: test/integration/default/test-kitchen-encrypted_data_bag_secret
+  retry_on_exit_code:
+  - 35 # 35 is the exit code signaling that the node is rebooting
+  wait_for_retry: 300 # 5 mins
+  max_retries: 5
+
+verifier:
+  name: inspec

@@ -1,0 +1,298 @@
+<DBGhost>
+    <!--DB Ghost application type.-->
+    <ChangeManager>
+        <!--Template Database - this is used when a database build is part of the processing.  This database's attributes are used-->
+        <!--for the CREATE DATABASE statement at the start of the build.  Generally the target database is used as the template.-->
+        <!--TemplateDB-->
+        <TemplateDB>
+            <DBName />
+            <DBServer />
+            <DBUserName />
+            <DBPassword />
+            <AuthenticationMode>Windows</AuthenticationMode>
+        </TemplateDB>
+        <!--Source Database-->
+        <!--SourceDB-->
+        <SourceDB>
+            <DBName />
+            <DBServer />
+            <DBUserName />
+            <DBPassword />
+            <AuthenticationMode>Windows</AuthenticationMode>
+        </SourceDB>
+        <!--Target Database-->
+        <!--TargetDB-->
+        <TargetDB>
+            <DBName />
+            <DBServer />
+            <DBUserName />
+            <DBPassword />
+            <AuthenticationMode>Windows</AuthenticationMode>
+        </TargetDB>
+        <!--ChangeManagerProcessType is a value which tells us what task is executed.-->
+        <!--ScriptDatabase                                         - Scripts a database to files.-->
+        <!--ScriptDatabaseAndBuildDatabase                         - Scripts a database to files and builds a database.-->
+        <!--ScriptDatabaseAndBuildDatabaseAndCompare               - Scripts a database to files and builds the source database and checks the target database for differences.-->
+        <!--ScriptDatabaseAndBuildDatabaseAndCompareAndCreateDelta - Scripts a database to files and builds the source database and checks the target database for differences, creating a SQL Delta of the differences.-->
+        <!--ScriptDatabaseAndBuildDatabaseAndCompareAndSynchronize - Scripts a database to files and builds the source database and looks for differences and synchronizes the target database with the newly built database.-->
+        <!--BuildDatabase                                          - Builds a database.-->
+        <!--BuildDatabaseAndCompare                                - Builds the source database and checks the target database for differences.-->
+        <!--BuildDatabaseAndCompareAndCreateDelta                  - Builds the source database and checks the target database for differences, creating a SQL Delta of the differences.-->
+        <!--BuildDatabaseAndCompareAndSynchronize                  - Builds the source database and looks for differences and synchronizes the target database with the newly built database.-->
+        <!--CompareOnly                                            - Looks for differences.-->
+        <!--CompareAndSynchronize                                  - Looks for differences and synchronizes the target database with the source database.-->
+        <!--CompareAndCreateDelta                                  - Looks for differences and creates a SQL Delta of the differences.-->
+        <!--CopyDatabase                                           - Creates a copy of a database on a server.-->
+        <ChangeManagerProcessType>CompareAndSynchronize</ChangeManagerProcessType>
+        <!--Boolean to indicate if source is located in source control.-->
+        <UseSourceControl>False</UseSourceControl>
+        <!--Connection Settings for source control.-->
+        <SourceControlSettings>
+            <Username />
+            <Password />
+            <DatabaseIni />
+            <GetLatest />
+            <!--VersionLabel is ignored if GetLatest is set to true.-->
+            <VersionLabel />
+        </SourceControlSettings>
+        <BuildDBName />
+        <!--Visual Studio Database Project File - SQL object directories are derived from this project if it exists.-->
+        <VisualStudioDatabaseProjectFile />
+        <!--Directory containing SQL Objects for the Build-->
+        <SchemaScripts>
+            <RecurseObjectFolders>False</RecurseObjectFolders>
+            <DeriveRootDirectoryFromSettingsFileLocation>True</DeriveRootDirectoryFromSettingsFileLocation>
+            <RootDirectory />
+            <!--DropCreateDatabaseScript - the location of a SQL script that has definitions for the database properties including the CREATE DATABASE statement.-->
+            <!--Leave or set this to an empty string if you need to use an existing database as the source for all the build database properties.-->
+            <DropCreateDatabaseScript />
+            <Logins />
+            <UsersAndRoles />
+            <Defaults />
+            <Rules />
+            <UDDT />
+            <Tables />
+            <Views />
+            <UDFs />
+            <StoredProcedures />
+            <Triggers />
+            <StaticData />
+            <XMLSchemaCollections />
+            <Schemas />
+            <Assemblies />
+            <DDLTriggers />
+            <ServiceBrokerMessageTypes />
+            <ServiceBrokerContracts />
+            <ServiceBrokerQueues />
+            <ServiceBrokerRoutes />
+            <ServiceBrokerServices />
+            <ServiceBrokerRemoteServiceBindings />
+            <AggregateFunctions />
+            <AsymmetricKeys />
+            <Certificates />
+            <FullTextCatalogs />
+            <PartitionFunctionsAndSchemes />
+            <SymmetricKeys />
+            <Synonyms />
+            <!--The following nodes are for custom scripts. AfterScript, BeforeSyncScript, AfterSyncScript-->
+            <!--The scripts in the AfterBuildScript node are run on the build source database after all other scripts have run.-->
+            <AfterBuildScript>
+                <!-- <Path>..\..\Source\DBGhostCustomScripts\Build.sql</Path> -->
+            </AfterBuildScript>
+            <!--The scripts in the BeforeSyncScript node are run on the target database before synchronization takes place.-->
+            <BeforeSyncScript>
+                <Path>..\DBGhostCustomScripts\PreProcess.sql</Path>
+            </BeforeSyncScript>
+            <!--The scripts in the AfterSyncScript node are run on the target database after synchronization takes place.-->
+            <AfterSyncScript>
+                <Path>..\DBGhostCustomScripts\PostProcess.sql</Path>
+            </AfterSyncScript>
+        </SchemaScripts>
+        <!--Comparison Options-->
+        <CompareOptions>
+            <DifferencesWithObjects>True</DifferencesWithObjects>
+            <DuplicatedObjects>True</DuplicatedObjects>
+            <ExtraObjects>True</ExtraObjects>
+            <DoNotDropTables>True</DoNotDropTables>
+            <DoNotDropColumns>True</DoNotDropColumns>
+            <!--DetectPotentialColumnRenames - comments.-->
+            <!--Execute       - when this attribute is true, the detection and renaming process can run.-->
+            <!--UseExactMatch - when this attribute is true, the columns must be exactly the same except for name.-->
+            <!--RaiseErrors   - when this attribute is true, the process will return errors when potential column renames are detected and you are creating a change script or synchronizing the target database - otherwise warnings are returned.-->
+            <!--StopOnError   - when this attribute is true, the process will stop if all the following conditions are true.-->
+            <!--You are creating a change script or synchronizing the target database; RaiseErrors=true.-->
+            <DetectPotentialColumnRenames Execute="False" UseExactMatch="True" RaiseErrors="False" StopOnError="False">
+                <!--Renaming of columns only happens when Execute is true and creating a change script or synchronizing the target database.-->
+                <!--A column rename will only happen if the old column exists and the new column does not exist.-->
+                <!--Example column to rename: <ColumnToRename Schema="dbo" TableName="aTable" OldColumnName="oldcolname" NewColumnName="newcolname" />-->
+            </DetectPotentialColumnRenames>
+            <MissingObjects>True</MissingObjects>
+            <DisableForeignKeys>False</DisableForeignKeys>
+            <FireTriggers>False</FireTriggers>
+            <IgnoreCollationDifferences>False</IgnoreCollationDifferences>
+            <IgnoreIndexFillFactorDifferences>True</IgnoreIndexFillFactorDifferences>
+            <QuestionEachChange>False</QuestionEachChange>
+            <Permissions>True</Permissions>
+            <ColumnOrdinal>True</ColumnOrdinal>
+            <ExtendedProperties>True</ExtendedProperties>
+            <DynamicallyAssignDatabaseName>False</DynamicallyAssignDatabaseName>
+            <KeepNewDatabase>True</KeepNewDatabase>
+            <DropDBIfExistsForCpyDB>False</DropDBIfExistsForCpyDB>
+            <ContinueOnBuildBreak>True</ContinueOnBuildBreak>
+            <EnableCustomScripts>True</EnableCustomScripts>
+            <LoadAllFileTypes>True</LoadAllFileTypes>
+            <FileTypes />
+            <!--The following value is ignored if running from the command line.-->
+            <RequestApplicationRolePassword>True</RequestApplicationRolePassword>
+            <SQLObjectsOptions>
+                <Logins>False</Logins>
+                <Schemas>True</Schemas>
+                <Users>True</Users>
+                <Roles>True</Roles>
+                <Defaults>True</Defaults>
+                <Rules>True</Rules>
+                <UDDT>True</UDDT>
+                <Tables>True</Tables>
+                <Triggers>True</Triggers>
+                <Views>True</Views>
+                <StoredProcs>True</StoredProcs>
+                <UDFs>True</UDFs>
+                <Assemblies>True</Assemblies>
+                <XMLSchemaCollections>True</XMLSchemaCollections>
+                <DDLTriggers>True</DDLTriggers>
+                <ServiceBrokerMessageTypes>True</ServiceBrokerMessageTypes>
+                <ServiceBrokerContracts>True</ServiceBrokerContracts>
+                <ServiceBrokerQueues>True</ServiceBrokerQueues>
+                <ServiceBrokerServices>True</ServiceBrokerServices>
+                <ServiceBrokerRoutes>True</ServiceBrokerRoutes>
+                <ServiceBrokerRemoteServiceBindings>True</ServiceBrokerRemoteServiceBindings>
+                <Synonyms>True</Synonyms>
+                <PartitionFunctionsAndSchemes>True</PartitionFunctionsAndSchemes>
+                <AggregateFunctions>True</AggregateFunctions>
+                <AsymmetricKeys>True</AsymmetricKeys>
+                <Certificates>True</Certificates>
+                <SymmetricKeys>True</SymmetricKeys>
+                <FullTextCatalogs>True</FullTextCatalogs>
+            </SQLObjectsOptions>
+            <!--DataComparisonOptions - true/false. Data will not be compared when false, when true the comparison options are derived from child nodes below.-->
+            <DataComparisonOptions compare="True">
+                <!--CheckFor node attributes explanations.-->
+                <!--MissingRows               - the comparison process will look for missing rows and create insert statements as needed.-->
+                <!--DifferencesWithinRows     - the comparison process will look for differences within rows using a unique key to identify the row and then compare them for equality, creating update statements as needed.-->
+                <!--AdditionalRows            - the comparison process will look for extra rows and create delete statements as needed.-->
+                <!--AutomaticallySelectTables - when this option is true, the table list to compare is created from the source database. The list will contain all those user defined tables within the source database that contain any data. When this option is false the list of tables from the node UserSuppliedTableList are used.-->
+                <!--FireTriggers              - when this is false, all triggers are disabled on the user defined tables before any data changing statements are executed. The triggers are then re-enabled once the process completes. When this is true, you can then enable individual tables to fire triggers if AutomaticallySelectTables is false, otherwise all triggers will fire. This setting when true could produce undesirable effects.-->
+                <!--DisableForeignKeys        - when this is false, foreign keys remain as they are. When this is true, you can disable or enable foreign keys for individual tables-->
+                <!--If AutomaticallySelectTables is false, otherwise all foreign keys will be disabled that used by any data statement. Once the process completes the foreign keys will be re-enabled.-->
+                <!--You should consider this option when creating a script where you are not synchronizing the database. This will allow the process to perform must faster but could result -->
+                <!--in errors in the script when the foreign keys are re-enabled as your target database fails the referential integrity that your foreign key defines.-->
+                <CheckFor MissingRows="True" DifferencesWithinRows="True" AdditionalRows="True" AutomaticallySelectTables="True" FireTriggers="False" DisableForeignKeys="False">
+                    <UserSuppliedTableList>
+                        <!--Table node attributes explanation.-->
+                        <!--schema                        - the schema of the table typically dbo. In SQL 2000 this is the owner of the table.-->
+                        <!--name                          - the name of the table.-->
+                        <!--checkforMissingRows           - allows you to turn off or on the process of looking for missing rows for individual tables. -->
+                        <!--                                The value is ignored if the attribute MissingRows for the node CheckFor is false.-->
+                        <!--checkforDifferencesWithinRows - allows you to turn off or on the process of looking for differences within rows for individual tables.-->
+                        <!--                                The value is ignored if the attribute DifferencesWithinRows for the node CheckFor is false.-->
+                        <!--checkforAdditionalRows        - allows you to turn off or on the process of looking for extra rows for individual tables.-->
+                        <!--                                The value is ignored if the attribute AdditionalRows for the node CheckFor is false.-->
+                        <!--FireTriggers                  - if the value is true, all the triggers for the individual table will fire for all data statements.-->
+                        <!--                                If the value is false, the triggers is disabled before any data statement and re-enabled at the end of the process.-->
+                        <!--                                The value is ignored if the attribute FireTriggers for the node CheckFor is false.-->
+                        <!--DisableForeignKeys            - if the value is true, all foreign keys for the individual table are disabled for all data statements. When false the foreign keys remain as they are.-->
+                        <!--                                The value is ignored if the attribute DisableForeignKeys for the node CheckFor is false.-->
+                        <!--Example Table node:-->
+                        <!--    If there are no columns in the list the values of all columns within the table are compared, otherwise only those columns within the supplied list are compared.-->
+                        <!--    <Table schema="dbo" name="wibble" checkforMissingRows="true" checkforDifferencesWithinRows="true" checkforAdditionalRows="true" FireTriggers="false" DisableForeignKeys="false" FilterWhereClause="" RuleForMissingColumnsOnInsert="UseSourceValue"> -->
+                        <!--        <UserSuppliedColumnList>    -->
+                        <!--        <Column name="wibble" />    -->
+                        <!--        </UserSuppliedColumnList>   -->
+                        <!--    </Table>                        -->
+                        <!--    FilterWhereClause attribute:-->
+                        <!--    Use this attribute to filter the data set to be compared. syntax: [ColumnName] = value and n....-->
+                        <!--    NB: Do not include the keyword "where" in the string.-->
+                        <!--    RuleForMissingColumnsOnInsert attribute:-->
+                        <!--    When a column is not within the list and the list is to be used, what value is used for the missing column when an insert statement is created?-->
+                        <!--    You can either have the column use the value from the source table, if it exists, or exclude the column from the insert statement which would -->
+                        <!--    result in a null value for the column or the default value if the column has a default defined on it.-->
+                        <!--    If the column doesn't allow nulls and there is no default then an error will be reported for the insert.-->
+                        <!--    Valid values are UseSourceValue or ExcludeFromStatement.-->
+                    </UserSuppliedTableList>
+                </CheckFor>
+            </DataComparisonOptions>
+        </CompareOptions>
+        <!--The fullname for the Build File, if not provided no Build SQL file will be created-->
+        <BuildSQLFileName />
+        <!--The fullname for the Delta Script File, if not provided none will be created-->
+        <DeltaScriptsFileName>.\DBGhost_DeltaRollforward.sql</DeltaScriptsFileName>
+        <DeltaFileEncoding>Unicode</DeltaFileEncoding>
+        <!--The fullname for the ReportFile, if not provided none will be created-->
+        <ReportFileName>.\DBGhost_Process.log</ReportFileName>
+        <!--Set the value to true to have the file overwritten each time the process runs-->
+        <OverwriteReportFileIfExists>False</OverwriteReportFileIfExists>
+        <!--The last session file save path-->
+        <SavePath></SavePath>
+        <!--Internally used node-->
+        <TempUniqueKey>633766229501532600</TempUniqueKey>
+    </ChangeManager>
+    <Scripter>
+        <!--DB Ghost application - Do not edit-->
+        <ApplicationName>Scripter</ApplicationName>
+        <!--Details of the database to be scripted out-->
+        <DatabaseToScript>
+            <!--The ServerType value must be SQLServer7, SQLServer2000, SQLServer2005 or SQLServer2008-->
+            <ServerType>Unknown</ServerType>
+            <Server />
+            <Database>Users</Database>
+            <Username />
+            <Password />
+            <IncludeDropAndCreateDatabaseStatements>False</IncludeDropAndCreateDatabaseStatements>
+        </DatabaseToScript>
+        <!--SQL object filter criteria-->
+        <ObjectFilter>
+            <TypeFilter>^Logins</TypeFilter>
+            <SchemaFilter>xxxxxxxxxxxxxxx</SchemaFilter>
+            <NameFilter>xxxxxxxxxxxxxxx</NameFilter>
+            <Invert>True</Invert>
+        </ObjectFilter>
+        <!--Encoding to be used for object scripts-->
+        <FileEncodingForObjects>Western European (Windows)</FileEncodingForObjects>
+        <!--Table filter criteria-->
+        <TableFilter>
+            <!--Scope can be ScriptAllTables, ScriptFilteredTables, ScriptSelectedTables or DoNotScriptTables-->
+            <scope>DoNotScriptTables</scope>
+            <schemafilter>.*</schemafilter>
+            <namefilter>.*</namefilter>
+            <invert>False</invert>
+            <minrows>1</minrows>
+            <maxrows>999999999999</maxrows>
+            <tablestoscript />
+        </TableFilter>
+        <!--Encoding to be used for data scripts-->
+        <FileEncodingForData>Western European (Windows)</FileEncodingForData>
+        <!--The size of each batch of rows in a static data/lookup script-->
+        <DataBatchSize>100</DataBatchSize>
+        <!--Option to print inserted row counts in a static data/lookup script-->
+        <PrintInserts>False</PrintInserts>
+        <!--Governs the order of the columns in the data scripts. Choices are 0, 1 or 2 where 0 = no order (default), 1 = order by column ordinal position, 2 = order by column name. -->
+        <DataScriptColumnOrderBy>0</DataScriptColumnOrderBy>
+        <!--Flag to indication the use of the collate clause in table creation scripts-->
+        <IncludeCollations>true</IncludeCollations>
+        <!--Flag to indicate if permissions are scripted with the objects-->
+        <IncludePermissions>true</IncludePermissions>
+        <!--Target root folder for the SQL scripts-->
+        <OutputFolder></OutputFolder>
+        <!--Options to delete output folders-->
+        <!--DeleteAll - this option will delete all the object directories below the root output directory.-->
+        <!--DeleteByObject - this option will delete only those directories where you are scripting objects. For example if you are only scripting Stored Procedures then only the Stored Procedures directory will be deleted.-->
+        <!--DeleteNothing - this option will not delete any directories.-->
+        <OutputFolderOption>DeleteByObject</OutputFolderOption>
+        <!--Flag to indicate that a Visual Studio database project file should be created-->
+        <CreateVSProject>false</CreateVSProject>
+        <!--The name of the log/report file-->
+        <ReportFilename>.\Script.log</ReportFilename>
+        <!--Overwrite log/report file if it exists.-->
+        <OverwriteReportFilename>True</OverwriteReportFilename>
+    </Scripter>
+</DBGhost>

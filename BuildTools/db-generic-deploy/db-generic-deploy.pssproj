@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>6CAFC0C6-A428-4d30-A9F9-700E829FEA51</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MyApplication</RootNamespace>
+    <AssemblyName>MyApplication</AssemblyName>
+    <Name>db-generic-deploy</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include=".gitignore" />
+    <Compile Include="DatabaseBuild.ps1" />
+    <Compile Include="DatabaseSync.ps1" />
+    <Compile Include="DatabaseSyncFunctions.ps1" />
+    <Compile Include="DbGhostConfiguration\DBGhostChangeManagerSettings_rollback.dbgcm" />
+    <Compile Include="DbGhostConfiguration\DBGhostChangeManagerSettings_rollforward.dbgcm" />
+    <Compile Include="DbGhostConfiguration\DBGhostChangeManagerTemplate.txt" />
+    <Compile Include="DbGhostConfiguration\DBGhostChangeManagerTemplate_rollback.txt" />
+    <Compile Include="DbGhostConfiguration\DBGhostChangeManagerTemplate_rollforward.txt" />
+	<Compile Include="DbGhostCustomScripts\PostProcess.sql" />
+	<Compile Include="DbGhostCustomScripts\PreProcess.sql" />
+    <Compile Include="DbRoleGenerator\DbRoleGenerator_10_ProcessPrep.sql" />
+    <Compile Include="DbRoleGenerator\DbRoleGenerator_20_CreateDbRoles.sql" />
+    <Compile Include="LoadSqlModule.ps1" />
+    <Compile Include="ModelCloseOutRoleGen.ps1" />
+    <Compile Include="ModelCreate.ps1" />
+    <Compile Include="ModelCreateRoledSchema.ps1" />
+    <Compile Include="ModelCreateSchemaFragment.ps1" />
+    <Compile Include="ModelDelete.ps1" />
+    <Compile Include="ModelLoginCreate.ps1" />
+    <Compile Include="ModelPrep.ps1" />
+    <Compile Include="ModelPrepRoleGen.ps1" />
+    <Compile Include="ModelUserCreate.ps1" />
+    <Compile Include="README.md" />
+    <Compile Include="SqlCmdScripts\AddUserRole.sql" />
+    <Compile Include="SqlCmdScripts\CreateDatabase.sql" />
+    <Compile Include="SqlCmdScripts\CreateSqlLogin.sql" />
+    <Compile Include="SqlCmdScripts\CreateUser.sql" />
+    <Compile Include="SqlCmdScripts\DropDatabase.sql" />
+    <Compile Include="SqlCmdScripts\EnsureEnvironmentName.sql" />
+    <Compile Include="SqlCmdScripts\ObliterateDatabase.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DbGhostConfiguration\" />
+	<Folder Include="DbGhostCustomScripts\" />
+    <Folder Include="DbRoleGenerator\" />
+    <Folder Include="SqlCmdScripts\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Target Name="Build" />
+</Project>

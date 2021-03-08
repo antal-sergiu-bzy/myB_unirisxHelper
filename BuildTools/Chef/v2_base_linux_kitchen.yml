@@ -1,0 +1,15 @@
+---
+platforms:
+- name: centos-7
+  driver:
+    vm_os: linux
+    template: Development/Sandbox/Templates/CentOS_7_Current
+    customize:
+      numCPUs: 2
+      memoryMB: 1024
+  transport:
+    username: root
+    password: <%= ENV['SECRET_CENTOS_ROOT_PASSWORD'] %>
+  provisioner:
+    client_rb:
+      client_fork: false

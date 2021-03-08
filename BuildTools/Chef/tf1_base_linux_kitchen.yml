@@ -1,0 +1,9 @@
+---
+platforms:
+- name: centos-7
+  transport:
+    username: root
+    password: <%= ENV['SECRET_CENTOS_ROOT_PASSWORD'] %>
+  provisioner:
+    client_rb:
+      client_fork: false

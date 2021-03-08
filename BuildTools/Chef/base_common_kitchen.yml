@@ -1,0 +1,53 @@
+---
+driver:
+  name: vsphere
+  driver_options:
+    host: <%= ENV['VSPHERE_SERVER'] %>
+    user: <%= ENV['VSPHERE_USER'] %>
+    password: <%= ENV['VSPHERE_PASSWORD'] %>
+    insecure: true
+  machine_options:
+    start_timeout: 1200   # 20 mins
+    create_timeout: 1200  # 20 mins
+    ready_timeout: 1200   # 20 mins
+    bootstrap_options:
+      bootstrap_ipv4: true
+      ipv4_timeout: 1200   # 20 mins
+      datacenter: PPS
+      cluster: Sandbox
+      template_folder: Development/Sandbox/Templates
+      resource_pool: Sandbox
+      vm_folder: Development/Sandbox
+      num_cpus: 2
+      network_name:
+      - Net_External_164
+      memory_mb: 4096
+      datastore: PPS_AFA_DEV_SANDBOX
+      customization_spec:
+        # ACTION: Change the "hostname" as this will be the name of the VM you are spinning up,
+        #         keep to 15 characters or less so that it matches our current limitations
+        #         (Windows etc). Make this unique, a good pattern would be TK (Test Kitchen),
+        #         a dash, followed by 9 character description.
+        # Length: 123456789012345
+        hostname: TK-NOT-DEFINED
+        domain: bfl.local
+      ssh:
+        paranoid: false
+
+provisioner:
+  name: chef_zero
+  product_name: chef
+  product_version: 14.10.9
+  http_proxy: http://gateway.zscloud.net:80
+  https_proxy: http://gateway.zscloud.net:80
+  no_proxy: .local,localhost
+  data_bags_path: test/integration/default/data_bags
+  environments_path: test/integration/default/environments
+  encrypted_data_bag_secret_key_path: test/integration/default/test-kitchen-encrypted_data_bag_secret
+  retry_on_exit_code:
+  - 35 # 35 is the exit code signaling that the node is rebooting
+  wait_for_retry: 300 # 5 mins
+  max_retries: 5
+
+verifier:
+  name: inspec

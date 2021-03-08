@@ -1,0 +1,21 @@
+# Ignore folders that we know are not under our control
+AllCops:
+  Exclude:
+    - 'BuildTools/**/*'
+    - 'BuildOutput/**/*'
+
+# Widescreens means we can get away with more than 80 chars but keeps readbility
+Metrics/LineLength:
+  Max: 125
+
+# Blocks in Ruby can get quite long but don't let people get carried away'
+Metrics/BlockLength:
+  Max: 100
+
+# Allow slightly longer lengths of methods because in Ruby we want to break long commands over multiple lines
+Metrics/MethodLength:
+  Max: 20
+
+# Windows use CR+LF whereas Ruby should be *nix LF only
+EndOfLine:
+  Enabled: false
